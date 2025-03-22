@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Система учета успеваемости</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        p {
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Система учета успеваемости</h1>
+    
+    <div id="grades-section" class="content-section">
+        <form method="post">
+            Имя ученика: <input type="text" name="name" required><br>
+            Предмет: <input type="text" name="subject" required><br>
+            Оценка: <input type="number" name="grade" required min="1" max="5"><br>
+            <button type="submit">Добавить</button>
+        </form>
+
+        <h2>Список оценок</h2>
+        {% if students %}
+        <table>
+            <tr>
+                <th>Имя</th>
+                <th>Предмет</th>
+                <th>Оценка</th>
+                <th>Время добавления</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.subject }}</td>
+                <td>{{ student.grade }}</td>
+                <td>{{ student.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>Нет добавленных оценок.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
