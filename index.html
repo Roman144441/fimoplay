@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система учета успеваемости</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Система учета успеваемости</h1>
+        
+        <form id="gradeForm">
+            <div class="input-group">
+                <label for="name">Имя ученика:</label>
+                <input type="text" id="name" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="subject">Предмет:</label>
+                <input type="text" id="subject" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="grade">Оценка:</label>
+                <input type="number" id="grade" min="1" max="5" required>
+            </div>
+            
+            <button type="submit">Добавить оценку ➕</button>
+        </form>
+
+        <div id="gradesTable">
+            <!-- JavaScript вставит сюда таблицу -->
+        </div>
+    </div>
+
+    <script>
+        // Тот же JavaScript код из предыдущего ответа
+        let grades = JSON.parse(localStorage.getItem('grades')) || [];
+
+        document.getElementById('gradeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const newGrade = {
+                name: document.getElementById('name').value,
+                subject: document.getElementById('subject').value,
+                grade: document.getElementById('grade').value,
+                timestamp: new Date().toLocaleString()
+            };
+
+            grades.push(newGrade);
+            localStorage.setItem('grades', JSON.stringify(grades));
+            updateTable();
+            this.reset();
+        });
+
+        function updateTable() {
+            const container = document.getElementById('gradesTable');
+            container.innerHTML = grades.length ? `
+                <table>
+                    <tr>
+                        <th>Имя</th>
+                        <th>Предмет</th>
+                        <th>Оценка</th>
+                        <th>Дата</th>
+                    </tr>
+                    ${grades.map(grade => `
+                        <tr>
+                            <td>${grade.name}</td>
+                            <td>${grade.subject}</td>
+                            <td>${grade.grade}</td>
+                            <td>${grade.timestamp}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            ` : '<div class="empty-state">Нет добавленных оценок</div>';
+        }
+
+        updateTable();
+    </script>
+</body>
+</html>
